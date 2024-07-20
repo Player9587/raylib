@@ -485,6 +485,75 @@ int32_t AndroidInput(AInputEvent *event)
     return 0;
 }
 
+// ANDROID: Process activity lifecycle commands
+void AndroidCommand(int width, int height)
+{
+    platform.appEnabled = true;
+    CORE.Window.flags &= ~FLAG_WINDOW_UNFOCUSED;
+    CORE.Window.display.width = width;
+    CORE.Window.display.height = height;
+
+    // Initialize graphics device (display device and OpenGL context)
+    InitGraphicsDevice();
+
+    // Initialize OpenGL context (states and resources)
+    // NOTE: CORE.Window.currentFbo.width and CORE.Window.currentFbo.height not used, just stored as globals in rlgl
+    rlglInit(width, height);
+
+    // Setup default viewport
+    // NOTE: It updated CORE.Window.render.width and CORE.Window.render.height
+    SetupViewport(width, height);
+
+    // Initialize hi-res timer
+    InitTimer();
+
+#if defined(SUPPORT_MODULE_RTEXT) && defined(SUPPORT_DEFAULT_FONT)
+    // Load default font
+    // WARNING: External function: Module required: rtext
+    LoadFontDefault();
+    #if defined(SUPPORT_MODULE_RSHAPES)
+    // Set font white rectangle for shapes drawing, so shapes and text can be batched together
+    // WARNING: rshapes module is required, if not available, default internal white rectangle is used
+    Rectangle rec = GetFontDefault().recs[95];
+    if (CORE.Window.flags & FLAG_MSAA_4X_HINT)
+    {
+        // NOTE: We try to maxime rec padding to avoid pixel bleeding on MSAA filtering
+        SetShapesTexture(GetFontDefault().texture, (Rectangle){ rec.x + 2, rec.y + 2, 1, 1 });
+    }
+    else
+    {
+        // NOTE: We set up a 1px padding on char rectangle to avoid pixel bleeding
+        SetShapesTexture(GetFontDefault().texture, (Rectangle){ rec.x + 1, rec.y + 1, rec.width - 2, rec.height - 2 });
+    }
+    #endif
+#else
+    #if defined(SUPPORT_MODULE_RSHAPES)
+    // Set default texture and rectangle to be used for shapes drawing
+    // NOTE: rlgl default texture is a 1x1 pixel UNCOMPRESSED_R8G8B8A8
+    Texture2D texture = { rlGetTextureIdDefault(), 1, 1, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
+    SetShapesTexture(texture, (Rectangle){ 0.0f, 0.0f, 1.0f, 1.0f });    // WARNING: Module required: rshapes
+    #endif
+#endif
+
+    // Initialize random seed
+    SetRandomSeed((unsigned int)time(NULL));
+
+    // TODO: GPU assets reload in case of lost focus (lost context)
+    // NOTE: This problem has been solved just unbinding and rebinding context from display
+    /*
+    if (assetsReloadRequired)
+    {
+        for (int i = 0; i < assetCount; i++)
+        {
+            // TODO: Unload old asset if required
+
+            // Load texture again to pointed texture
+            (*textureAsset + i) = LoadTexture(assetPath[i]);
+        }
+    }
+    */
+}
+
 //----------------------------------------------------------------------------------
 // Module Functions Definition: Window and Graphics Device
 //----------------------------------------------------------------------------------
