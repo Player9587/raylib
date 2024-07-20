@@ -956,6 +956,7 @@ extern "C" {            // Prevents name mangling of functions
 
 #if defined(PLATFORM_ANDROID)
 RLAPI void *GetAndroidPlatformData(void);
+RLAPI int32_t AndroidInput(AInputEvent *event);
 #endif
 
 // Window-related functions
