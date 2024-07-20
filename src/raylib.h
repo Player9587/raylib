@@ -954,6 +954,10 @@ typedef bool (*SaveFileTextCallback)(const char *fileName, char *text); // FileI
 extern "C" {            // Prevents name mangling of functions
 #endif
 
+#if defined(PLATFORM_ANDROID)
+RLAPI void *GetAndroidPlatformData(void);
+#endif
+
 // Window-related functions
 RLAPI void InitWindow(int width, int height, const char *title);  // Initialize window and OpenGL context
 RLAPI void CloseWindow(void);                                     // Close window and unload OpenGL context
