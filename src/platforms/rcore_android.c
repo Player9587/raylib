@@ -265,6 +265,11 @@ static GamepadButton AndroidTranslateGamepadButton(int button);                 
 // Module Functions Definition: Application
 //----------------------------------------------------------------------------------
 
+void *GetAndroidPlatformData(void)
+{
+  return (void *)&platform;
+}
+
 //----------------------------------------------------------------------------------
 // Module Functions Definition: Window and Graphics Device
 //----------------------------------------------------------------------------------
