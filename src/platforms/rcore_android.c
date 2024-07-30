@@ -1114,16 +1114,6 @@ static int InitGraphicsDevice(void)
         return -1;
     }
 
-    /*
-    // Initialize the EGL device connection
-    if (eglInitialize(platform.device, NULL, NULL) == EGL_FALSE)
-    {
-        // If all of the calls to eglInitialize returned EGL_FALSE then an error has occurred.
-        TRACELOG(LOG_WARNING, "DISPLAY: Failed to initialize EGL device");
-        return -1;
-    }
-    */
-
     // Get an appropriate EGL framebuffer configuration
     eglChooseConfig(platform.device, framebufferAttribs, &platform.config, 1, &numConfigs);
 
