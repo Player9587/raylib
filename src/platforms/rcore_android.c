@@ -975,17 +975,6 @@ int InitPlatform(void)
     CORE.Window.flags &= ~FLAG_WINDOW_UNFOCUSED;    // false
     //----------------------------------------------------------------------------
 
-    // Initialize App command system
-    // NOTE: On APP_CMD_INIT_WINDOW -> InitGraphicsDevice(), InitTimer(), LoadFontDefault()...
-    //----------------------------------------------------------------------------
-    platform.app->onAppCmd = AndroidCommandCallback;
-    //----------------------------------------------------------------------------
-
-    // Initialize input events system
-    //----------------------------------------------------------------------------
-    platform.app->onInputEvent = AndroidInputCallback;
-    //----------------------------------------------------------------------------
-
     // Initialize storage system
     //----------------------------------------------------------------------------
     InitAssetManager(platform.app->activity->assetManager, platform.app->activity->internalDataPath);   // Initialize assets manager
