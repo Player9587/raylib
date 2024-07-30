@@ -1082,8 +1082,6 @@ static int InitGraphicsDevice(void)
     //  -> CORE.Window.screenScale
     SetupFramebuffer(CORE.Window.display.width, CORE.Window.display.height);
 
-    platform.surface = eglCreateWindowSurface(platform.device, platform.config, platform.app->window, NULL);
-
     // There must be at least one frame displayed before the buffers are swapped
     //eglSwapInterval(platform.device, 1);
 
