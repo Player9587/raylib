@@ -1082,9 +1082,6 @@ static int InitGraphicsDevice(void)
     //  -> CORE.Window.screenScale
     SetupFramebuffer(CORE.Window.display.width, CORE.Window.display.height);
 
-    ANativeWindow_setBuffersGeometry(platform.app->window, CORE.Window.render.width, CORE.Window.render.height, displayFormat);
-    //ANativeWindow_setBuffersGeometry(platform.app->window, 0, 0, displayFormat);       // Force use of native display size
-
     platform.surface = eglCreateWindowSurface(platform.device, platform.config, platform.app->window, NULL);
 
     // There must be at least one frame displayed before the buffers are swapped
