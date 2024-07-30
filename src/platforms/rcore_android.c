@@ -975,13 +975,6 @@ int InitPlatform(void)
     CORE.Window.flags &= ~FLAG_WINDOW_UNFOCUSED;    // false
     //----------------------------------------------------------------------------
 
-    // Initialize storage system
-    //----------------------------------------------------------------------------
-    InitAssetManager(platform.app->activity->assetManager, platform.app->activity->internalDataPath);   // Initialize assets manager
-
-    CORE.Storage.basePath = platform.app->activity->internalDataPath;   // Define base path for storage
-    //----------------------------------------------------------------------------
-
     TRACELOG(LOG_INFO, "PLATFORM: ANDROID: Initialized successfully");
 
     // Android ALooper_pollAll() variables
