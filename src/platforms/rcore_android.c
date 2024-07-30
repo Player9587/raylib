@@ -968,28 +968,6 @@ int InitPlatform(void)
     CORE.Window.currentFbo.width = CORE.Window.screen.width;
     CORE.Window.currentFbo.height = CORE.Window.screen.height;
 
-    int orientation = AConfiguration_getOrientation(platform.app->config);
-
-    if (orientation == ACONFIGURATION_ORIENTATION_PORT) TRACELOG(LOG_INFO, "ANDROID: Window orientation set as portrait");
-    else if (orientation == ACONFIGURATION_ORIENTATION_LAND) TRACELOG(LOG_INFO, "ANDROID: Window orientation set as landscape");
-
-    // TODO: Automatic orientation doesn't seem to work
-    if (CORE.Window.screen.width <= CORE.Window.screen.height)
-    {
-        AConfiguration_setOrientation(platform.app->config, ACONFIGURATION_ORIENTATION_PORT);
-        TRACELOG(LOG_WARNING, "ANDROID: Window orientation changed to portrait");
-    }
-    else
-    {
-        AConfiguration_setOrientation(platform.app->config, ACONFIGURATION_ORIENTATION_LAND);
-        TRACELOG(LOG_WARNING, "ANDROID: Window orientation changed to landscape");
-    }
-
-    //AConfiguration_getDensity(platform.app->config);
-    //AConfiguration_getKeyboard(platform.app->config);
-    //AConfiguration_getScreenSize(platform.app->config);
-    //AConfiguration_getScreenLong(platform.app->config);
-
     // Set some default window flags
     CORE.Window.flags &= ~FLAG_WINDOW_HIDDEN;       // false
     CORE.Window.flags &= ~FLAG_WINDOW_MINIMIZED;    // false
