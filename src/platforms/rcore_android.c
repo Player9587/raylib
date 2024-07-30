@@ -977,24 +977,6 @@ int InitPlatform(void)
 
     TRACELOG(LOG_INFO, "PLATFORM: ANDROID: Initialized successfully");
 
-    // Android ALooper_pollAll() variables
-    int pollResult = 0;
-    int pollEvents = 0;
-
-    // Wait for window to be initialized (display and context)
-    while (!CORE.Window.ready)
-    {
-        // Process events loop
-        while ((pollResult = ALooper_pollAll(0, NULL, &pollEvents, (void**)&platform.source)) >= 0)
-        {
-            // Process this event
-            if (platform.source != NULL) platform.source->process(platform.app, platform.source);
-
-            // NOTE: Never close window, native activity is controlled by the system!
-            //if (platform.app->destroyRequested != 0) CORE.Window.shouldClose = true;
-        }
-    }
-
     return 0;
 }
 
