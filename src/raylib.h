@@ -958,6 +958,7 @@ RLAPI void *GetCoreData(void);
 
 RLAPI unsigned int GetGlProgram(void);
 RLAPI void SetGlProgram(unsigned int program);
+RLAPI unsigned int rlGetTextureIdDefaultManually(void);
 
 #if defined(PLATFORM_ANDROID)
 RLAPI void *GetAndroidPlatformData(void);
