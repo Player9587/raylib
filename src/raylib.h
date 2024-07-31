@@ -956,6 +956,9 @@ extern "C" {            // Prevents name mangling of functions
 
 RLAPI void *GetCoreData(void);
 
+RLAPI unsigned int GetGlProgram(void);
+RLAPI void SetGlProgram(unsigned int program);
+
 #if defined(PLATFORM_ANDROID)
 RLAPI void *GetAndroidPlatformData(void);
 RLAPI int32_t AndroidInput(AInputEvent *event);

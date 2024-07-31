@@ -362,6 +362,8 @@ RLAPI const char *raylib_version = RAYLIB_VERSION;  // raylib version exported s
 
 CoreData CORE = { 0 };               // Global CORE state context
 
+static GLuint main_gl_program = 0;
+
 #if defined(SUPPORT_SCREEN_CAPTURE)
 static int screenshotCounter = 0;    // Screenshots counter
 #endif
@@ -565,6 +567,15 @@ const char *TextFormat(const char *text, ...);              // Formatting of tex
 void *GetCoreData(void)
 {
   return (void *)&CORE;
+}
+
+unsigned int GetGlProgram(void)
+{
+  return (unsigned int)main_gl_program;
+}
+
+void SetGlProgram(unsigned int program){
+  main_gl_program = (GLuint)program;
 }
 
 // Initialize window and OpenGL context
