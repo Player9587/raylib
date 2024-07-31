@@ -954,6 +954,8 @@ typedef bool (*SaveFileTextCallback)(const char *fileName, char *text); // FileI
 extern "C" {            // Prevents name mangling of functions
 #endif
 
+RLAPI void *GetCoreData(void);
+
 #if defined(PLATFORM_ANDROID)
 RLAPI void *GetAndroidPlatformData(void);
 RLAPI int32_t AndroidInput(AInputEvent *event);
