@@ -578,6 +578,11 @@ void SetGlProgram(unsigned int program){
   main_gl_program = (GLuint)program;
 }
 
+unsigned int rlGetTextureIdDefaultManually(void)
+{
+  return rlGetTextureIdDefault();
+}
+
 // Initialize window and OpenGL context
 // NOTE: data parameter could be used to pass any kind of required data to the initialization
 void InitWindow(int width, int height, const char *title)
