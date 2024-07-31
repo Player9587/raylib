@@ -4844,6 +4844,9 @@ static void rlLoadShaderDefault(void)
 
     RLGL.State.defaultShaderId = rlLoadShaderProgram(RLGL.State.defaultVShaderId, RLGL.State.defaultFShaderId);
 
+    // Initialize main_gl_program variable with SetGlProgram() function.
+    SetGlProgram(RLGL.State.defaultShaderId);
+
     if (RLGL.State.defaultShaderId > 0)
     {
         TRACELOG(RL_LOG_INFO, "SHADER: [ID %i] Default shader loaded successfully", RLGL.State.defaultShaderId);
