@@ -337,7 +337,7 @@ void AndroidInput(AInputEvent *event)
                 CORE.Input.Gamepad.currentButtonState[0][GAMEPAD_BUTTON_LEFT_FACE_UP] = 0;
             }
 
-            return 1; // Handled gamepad axis motion
+            return; // Handled gamepad axis motion
         }
     }
     else if (type == AINPUT_EVENT_TYPE_KEY)
@@ -354,7 +354,7 @@ void AndroidInput(AInputEvent *event)
 
             GamepadButton button = AndroidTranslateGamepadButton(keycode);
 
-            if (button == GAMEPAD_BUTTON_UNKNOWN) return 1;
+            if (button == GAMEPAD_BUTTON_UNKNOWN) return;
 
             if (AKeyEvent_getAction(event) == AKEY_EVENT_ACTION_DOWN)
             {
@@ -362,7 +362,7 @@ void AndroidInput(AInputEvent *event)
             }
             else CORE.Input.Gamepad.currentButtonState[0][button] = 0;  // Key up
 
-            return 1; // Handled gamepad button
+            return; // Handled gamepad button
         }
 
         KeyboardKey key = (keycode > 0 && keycode < KEYCODE_MAP_SIZE) ? KeycodeMap[keycode] : KEY_NULL;
@@ -388,20 +388,20 @@ void AndroidInput(AInputEvent *event)
             // It seems like locking mobile, screen size (CMD_CONFIG_CHANGED) is affected.
             // NOTE: AndroidManifest.xml must have <activity android:configChanges="orientation|keyboardHidden|screenSize" >
             // Before that change, activity was calling CMD_TERM_WINDOW and CMD_DESTROY when locking mobile, so that was not a normal behaviour
-            return 0;
+            return;
         }
         else if ((keycode == AKEYCODE_BACK) || (keycode == AKEYCODE_MENU))
         {
             // Eat BACK_BUTTON and AKEYCODE_MENU, just do nothing... and don't let to be handled by OS!
-            return 1;
+            return;
         }
         else if ((keycode == AKEYCODE_VOLUME_UP) || (keycode == AKEYCODE_VOLUME_DOWN))
         {
             // Set default OS behaviour
-            return 0;
+            return;
         }
 
-        return 0;
+        return;
     }
 
     // Register touch points count
@@ -482,7 +482,7 @@ void AndroidInput(AInputEvent *event)
     CORE.Input.Mouse.currentPosition = CORE.Input.Touch.position[0];
     CORE.Input.Mouse.currentWheelMove = (Vector2){ 0.0f, 0.0f };
 
-    return 0;
+    return;
 }
 
 // ANDROID: Process activity lifecycle commands
