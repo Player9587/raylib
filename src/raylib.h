@@ -961,6 +961,8 @@ RLAPI void SetGlProgram(unsigned int program);
 RLAPI unsigned int rlGetTextureIdDefaultManually(void);
 
 #if defined(PLATFORM_ANDROID)
+#include <android/input.h>
+
 RLAPI void *GetAndroidPlatformData(void);
 RLAPI void AndroidInput(AInputEvent *event);
 RLAPI void AndroidCommand(int width, int height);
