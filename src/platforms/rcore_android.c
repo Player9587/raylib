@@ -271,7 +271,7 @@ void *GetAndroidPlatformData(void)
 }
 
 // ANDROID: Get input events
-int32_t AndroidInput(AInputEvent *event)
+void AndroidInput(AInputEvent *event)
 {
     // If additional inputs are required check:
     // https://developer.android.com/ndk/reference/group/input
