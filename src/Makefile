@@ -484,7 +484,7 @@ ifeq ($(TARGET_PLATFORM),PLATFORM_DRM)
     endif
 endif
 ifeq ($(TARGET_PLATFORM),PLATFORM_ANDROID)
-    NATIVE_APP_GLUE = $(ANDROID_NDK)/sources/android/native_app_glue
+    NATIVE_APP_GLUE ?= $(ANDROID_NDK)/sources/android/native_app_glue
     # Include android_native_app_glue.h
     INCLUDE_PATHS += -I$(NATIVE_APP_GLUE)
 
