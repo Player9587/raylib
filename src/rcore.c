@@ -369,9 +369,9 @@ static int screenshotCounter = 0;    // Screenshots counter
 #endif
 
 #if defined(SUPPORT_GIF_RECORDING)
-unsigned int gifFrameCounter = 0;    // GIF frames counter
-bool gifRecording = false;           // GIF recording state
-MsfGifState gifState = { 0 };        // MSGIF context state
+static unsigned int gifFrameCounter = 0;    // GIF frames counter
+static bool gifRecording = false;           // GIF recording state
+static MsfGifState gifState = { 0 };        // MSGIF context state
 #endif
 
 #if defined(SUPPORT_AUTOMATION_EVENTS)
@@ -2976,7 +2976,7 @@ float GetGamepadAxisMovement(int gamepad, int axis)
     float value = (axis == GAMEPAD_AXIS_LEFT_TRIGGER || axis == GAMEPAD_AXIS_RIGHT_TRIGGER)? -1.0f : 0.0f;
 
     if ((gamepad < MAX_GAMEPADS) && CORE.Input.Gamepad.ready[gamepad] && (axis < MAX_GAMEPAD_AXIS)) {
-        float movement = value < 0.0f ? CORE.Input.Gamepad.axisState[gamepad][axis] : fabs(CORE.Input.Gamepad.axisState[gamepad][axis]);
+        float movement = value < 0.0f ? CORE.Input.Gamepad.axisState[gamepad][axis] : fabsf(CORE.Input.Gamepad.axisState[gamepad][axis]);
 
         // 0.1f = GAMEPAD_AXIS_MINIMUM_DRIFT/DELTA
         if (movement > value + 0.1f) value = CORE.Input.Gamepad.axisState[gamepad][axis];
