@@ -74,7 +74,7 @@ typedef struct {
 // Global Variables Definition
 //----------------------------------------------------------------------------------
 extern CoreData CORE;                   // Global CORE state context
-
+extern bool isGpuReady;                 // Flag to note GPU has been initialized successfully
 static PlatformData platform = { 0 };   // Platform specific data
 
 //----------------------------------------------------------------------------------
@@ -866,22 +866,23 @@ void PollInputEvents(void)
         CORE.Input.Keyboard.keyRepeatInFrame[i] = 0;
     }
 
-    // Android ALooper_pollAll() variables
+    // Android ALooper_pollOnce() variables
     int pollResult = 0;
     int pollEvents = 0;
 
-    // Poll Events (registered events)
+    // Poll Events (registered events) until we reach TIMEOUT which indicates there are no events left to poll
     // NOTE: Activity is paused if not enabled (platform.appEnabled)
-    while ((pollResult = ALooper_pollAll(platform.appEnabled? 0 : -1, NULL, &pollEvents, (void**)&platform.source)) >= 0)
+    while ((pollResult = ALooper_pollOnce(platform.appEnabled? 0 : -1, NULL, &pollEvents, (void**)&platform.source)) > ALOOPER_POLL_TIMEOUT)
     {
         // Process this event
         if (platform.source != NULL) platform.source->process(platform.app, platform.source);
 
-        // NOTE: Never close window, native activity is controlled by the system!
+        // NOTE: Allow closing the window in case a configuration change happened.
+        // The android_main function should be allowed to return to its caller in order for the
+        // Android OS to relaunch the activity.
         if (platform.app->destroyRequested != 0)
         {
-            //CORE.Window.shouldClose = true;
-            //ANativeActivity_finish(platform.app->activity);
+            CORE.Window.shouldClose = true;
         }
     }
 }
@@ -933,6 +934,12 @@ void ClosePlatform(void)
 
         eglTerminate(platform.device);
         platform.device = EGL_NO_DISPLAY;
+    }
+
+    // NOTE: Reset global state in case the activity is being relaunched.
+    if (platform.app->destroyRequested != 0) {
+        CORE = (CoreData){0};
+        platform = (PlatformData){0};
     }
 }
 
@@ -1091,6 +1098,7 @@ static void AndroidCommandCallback(struct android_app *app, int32_t cmd)
                     // Initialize OpenGL context (states and resources)
                     // NOTE: CORE.Window.currentFbo.width and CORE.Window.currentFbo.height not used, just stored as globals in rlgl
                     rlglInit(CORE.Window.currentFbo.width, CORE.Window.currentFbo.height);
+                    isGpuReady = true;
 
                     // Setup default viewport
                     // NOTE: It updated CORE.Window.render.width and CORE.Window.render.height
