@@ -3123,6 +3123,51 @@ return {
   },
   functions = {
     {
+      name = "GetCoreData",
+      description = "",
+      returnType = "void *"
+    },
+    {
+      name = "GetGlProgram",
+      description = "",
+      returnType = "unsigned int"
+    },
+    {
+      name = "SetGlProgram",
+      description = "",
+      returnType = "void",
+      params = {
+        {type = "unsigned int", name = "program"}
+      }
+    },
+    {
+      name = "rlGetTextureIdDefaultManually",
+      description = "",
+      returnType = "unsigned int"
+    },
+    {
+      name = "GetAndroidPlatformData",
+      description = "",
+      returnType = "void *"
+    },
+    {
+      name = "AndroidInput",
+      description = "",
+      returnType = "void",
+      params = {
+        {type = "AInputEvent *", name = "event"}
+      }
+    },
+    {
+      name = "AndroidCommand",
+      description = "",
+      returnType = "void",
+      params = {
+        {type = "int", name = "width"},
+        {type = "int", name = "height"}
+      }
+    },
+    {
       name = "InitWindow",
       description = "Initialize window and OpenGL context",
       returnType = "void",

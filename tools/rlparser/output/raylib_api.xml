@@ -679,7 +679,25 @@
             <Param type="unsigned int" name="frames" desc="" />
         </Callback>
     </Callbacks>
-    <Functions count="597">
+    <Functions count="604">
+        <Function name="GetCoreData" retType="void *" paramCount="0" desc="">
+        </Function>
+        <Function name="GetGlProgram" retType="unsigned int" paramCount="0" desc="">
+        </Function>
+        <Function name="SetGlProgram" retType="void" paramCount="1" desc="">
+            <Param type="unsigned int" name="program" desc="" />
+        </Function>
+        <Function name="rlGetTextureIdDefaultManually" retType="unsigned int" paramCount="0" desc="">
+        </Function>
+        <Function name="GetAndroidPlatformData" retType="void *" paramCount="0" desc="">
+        </Function>
+        <Function name="AndroidInput" retType="void" paramCount="1" desc="">
+            <Param type="AInputEvent *" name="event" desc="" />
+        </Function>
+        <Function name="AndroidCommand" retType="void" paramCount="2" desc="">
+            <Param type="int" name="width" desc="" />
+            <Param type="int" name="height" desc="" />
+        </Function>
         <Function name="InitWindow" retType="void" paramCount="3" desc="Initialize window and OpenGL context">
             <Param type="int" name="width" desc="" />
             <Param type="int" name="height" desc="" />
