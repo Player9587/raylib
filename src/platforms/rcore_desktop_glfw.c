@@ -130,7 +130,7 @@ int InitPlatform(void);          // Initialize platform (graphics, inputs and mo
 void ClosePlatform(void);        // Close platform
 
 // Error callback event
-static void ErrorCallback(int error, const char *description);                             // GLFW3 Error Callback, runs on GLFW3 error
+static void ErrorCallback(int error, const char *description);                          // GLFW3 Error Callback, runs on GLFW3 error
 
 // Window callbacks events
 static void WindowSizeCallback(GLFWwindow *window, int width, int height);              // GLFW3 WindowSize Callback, runs when window is resized
@@ -265,8 +265,15 @@ void ToggleBorderlessWindowed(void)
                 const int monitorHeight = mode->height;
 
                 // Set screen position and size
-                glfwSetWindowPos(platform.handle, monitorPosX, monitorPosY);
-                glfwSetWindowSize(platform.handle, monitorWidth, monitorHeight);
+                glfwSetWindowMonitor(
+                    platform.handle,
+                    monitors[monitor],
+                    monitorPosX,
+                    monitorPosY,
+                    monitorWidth,
+                    monitorHeight,
+                    mode->refreshRate
+                );
 
                 // Refocus window
                 glfwFocusWindow(platform.handle);
@@ -281,8 +288,15 @@ void ToggleBorderlessWindowed(void)
 
                 // Return previous screen size and position
                 // NOTE: The order matters here, it must set size first, then set position, otherwise the screen will be positioned incorrectly
-                glfwSetWindowSize(platform.handle,  CORE.Window.previousScreen.width, CORE.Window.previousScreen.height);
-                glfwSetWindowPos(platform.handle, CORE.Window.previousPosition.x, CORE.Window.previousPosition.y);
+                glfwSetWindowMonitor(
+                    platform.handle,
+                    NULL,
+                    CORE.Window.previousPosition.x,
+                    CORE.Window.previousPosition.y,
+                    CORE.Window.previousScreen.width,
+                    CORE.Window.previousScreen.height,
+            	    mode->refreshRate
+            	);
 
                 // Refocus window
                 glfwFocusWindow(platform.handle);
