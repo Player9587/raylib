@@ -917,25 +917,6 @@ void PollInputEvents(void)
         CORE.Input.Keyboard.keyRepeatInFrame[i] = 0;
     }
 
-    // Android ALooper_pollOnce() variables
-    int pollResult = 0;
-    int pollEvents = 0;
-
-    // Poll Events (registered events) until we reach TIMEOUT which indicates there are no events left to poll
-    // NOTE: Activity is paused if not enabled (platform.appEnabled)
-    while ((pollResult = ALooper_pollOnce(platform.appEnabled? 0 : -1, NULL, &pollEvents, ((void **)&platform.source)) > ALOOPER_POLL_TIMEOUT))
-    {
-        // Process this event
-        if (platform.source != NULL) platform.source->process(platform.app, platform.source);
-
-        // NOTE: Allow closing the window in case a configuration change happened
-        // The android_main function should be allowed to return to its caller in order for the
-        // Android OS to relaunch the activity
-        if (platform.app->destroyRequested != 0)
-        {
-            CORE.Window.shouldClose = true;
-        }
-    }
 }
 
 //----------------------------------------------------------------------------------
